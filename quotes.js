@@ -44,7 +44,12 @@ return fetchedQuotes;
 }
 await addQuote();
 
-export async function getQuote(id) {}
+export async function getQuote(id) {
+    const getQuote = await fs.readFile("quotes.json");
+const fetchedQuotes = JSON.parse(getQuote);
+const foundCode = fetchedQuotes.find(quote  => quote.id === id)
+return foundCode || null
+}
 
 export async function editQuote(id, newQuoteText, newAuthor) {}
 
