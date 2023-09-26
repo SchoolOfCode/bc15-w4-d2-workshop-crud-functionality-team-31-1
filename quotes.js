@@ -74,4 +74,22 @@ export async function editQuote(id, newQuoteText, newAuthor) {
 }
 }
 
-export async function deleteQuote(id) {}
+export async function deleteQuote(id) {
+// Load and parse the existing quotes from `quotes.json`.
+const getQuote = await fs.readFile("quotes.json");
+const fetchedQuotes = JSON.parse(getQuote);
+const JSONData = JSON.stringify(fetchedQuotes);
+const deleteQuote = fetchedQuotes.findIndex((quote)  => quote.id === id)
+//Find and remove the quote with the specified `id` from the array of quote objects.
+  if(deleteQuote === -1){
+    return false;
+  }
+  fetchedQuotes.splice(deleteQuote, 1);
+
+  // Step 4: Save the updated quotes list back to quotes.json.
+  await fs.writeFile('quotes.json', JSON.stringify(fetchedQuotes, null, 2), 'utf-8');
+
+  // Step 5: Return true if the quote was successfully deleted.
+  return true;
+
+};
