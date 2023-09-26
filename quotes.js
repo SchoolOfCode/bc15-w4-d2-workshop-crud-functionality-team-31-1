@@ -29,7 +29,20 @@ export async function addQuote(quoteText, author = "Unknown") {
 }
 await addQuote("You must be the change you wish to see in the world.", "Mahatma Gandhi");
 
-export async function getQuotes() {}
+export async function getQuotes() {
+//Load and parse all quotes from `quotes.json`.
+const getQuote = await fs.readFile("quotes.json");
+const fetchedQuotes = JSON.parse(getQuote);
+
+
+//Return the array of all quotes.
+
+return fetchedQuotes;
+
+
+
+}
+await addQuote();
 
 export async function getQuote(id) {}
 
