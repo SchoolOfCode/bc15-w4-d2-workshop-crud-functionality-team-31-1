@@ -51,6 +51,27 @@ const foundCode = fetchedQuotes.find(quote  => quote.id === id)
 return foundCode || null
 }
 
-export async function editQuote(id, newQuoteText, newAuthor) {}
+export async function editQuote(id, newQuoteText, newAuthor) {
+    //1. Load and parse the existing quotes from `quotes.json`.
+    const getQuote = await fs.readFile("quotes.json");
+    const fetchedQuotes = JSON.parse(getQuote);
+    
+    //2. Search for the quote object with the given `id` within the array of quote objects.
+    const foundCode = fetchedQuotes.find(quote  => quote.id === id)
+    if (!foundCode) {
+        return null;
+    } else {
+    //If found, update the object's `quoteText` and `author` properties with the provided `newQuoteText` and `newAuthor`.
+    foundCode.quoteText = newQuoteText;
+    foundCode.author = newAuthor;
+    //4. Save the updated array of quote objects back to `quotes.json`.
+    //getQuote.push(foundCode);
+
+    const JSONData = JSON.stringify(fetchedQuotes);
+    await fs.writeFile("quotes.json", JSONData);
+    // 5. Finally, return the updated quote object. If no quote with the specified ID is found, return `null`.
+    return foundCode;
+}
+}
 
 export async function deleteQuote(id) {}
